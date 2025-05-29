@@ -1,0 +1,18 @@
+# Terraform state
+*.tfstate
+*.tfstate.backup
+.terraform/
+.terraform.lock.hcl
+
+# Clés privées
+*.pem
+
+# Fichiers de sortie
+jenkins_ec2.txt
+
+# Variables sensibles
+*.tfvars
+.env
+
+# Logs, cache
+*.log
