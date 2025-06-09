@@ -38,9 +38,13 @@ Le projet est découpé en plusieurs modules Terraform réutilisables :
 ---
 
 ## 🚀 Déploiement
+terraform init
+terraform validate
+terraform plan
+terraform apply -auto-approve
+
 
 ### 1. Clone le dépôt
 
-```bash
 git clone https://github.com/KalyII/terraform-aws-examples.git
 cd terraform-aws-examples/app
