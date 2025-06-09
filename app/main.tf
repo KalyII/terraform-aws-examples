@@ -1,3 +1,18 @@
+terraform {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 5.0"
+    }
+  }
+}
+
+provider "aws" {
+  region                  = var.aws_region
+  access_key              = var.aws_access_key
+  secret_key              = var.aws_secret_key
+  token                   = var.aws_session_token
+}
 
 module "network" {
   source = "../modules/network"
@@ -8,10 +23,9 @@ module "key_pair" {
 }
 
 module "security_group" {
-  source  = "../modules/security_group"
-  vpc_id  = module.network.vpc_id
+  source = "../modules/security_group"
+  vpc_id = module.network.vpc_id
 }
-
 
 module "ec2" {
   source             = "../modules/ec2"
@@ -24,16 +38,16 @@ module "ec2" {
   private_key_pem    = module.key_pair.private_key_pem
 }
 
-
 module "eip" {
   source      = "../modules/elastic_ip"
   instance_id = module.ec2.instance_id
 }
 
 resource "local_file" "jenkins_info" {
-  content  = <<EOT
-Jenkins IP: ${module.ec2.public_ip}
+  content = <<EOT
+Jenkins IP: ${module.eip.public_ip}
 Nom de domaine: jenkins.example.com
 EOT
+
   filename = "${path.module}/../jenkins_ec2.txt"
 }
